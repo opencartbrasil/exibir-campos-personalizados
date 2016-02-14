@@ -43,7 +43,7 @@ Só captura campos customizados do tipo "Endereço".
 
 **Como identificar o ID do campo customizado:**
 
-Na administração, acesse o menu Sales->Customers->Custom Fields (Vendas->Clientes->Personalizar cadastro), na coluna "Id" fica o id do campo customizado.
+Na administração, acesse o menu Customers->Custom Fields (Clientes->Personalizar cadastro), na coluna "Id" fica o id do campo customizado.
 
 ### Dúvidas
 
@@ -53,7 +53,7 @@ https://github.com/opencart/opencart/wiki/Modification-System
 
 ### Os arquivos alterados virtualmente através do OCMod são:
 
-admin/view/template/sale/custom_field_list.tpl
+admin/view/template/customer/custom_field_list.tpl
 
 admin/model/localisation/country.php
 
