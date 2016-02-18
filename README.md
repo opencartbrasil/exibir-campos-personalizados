@@ -1,6 +1,10 @@
 ### Resumo
 
-Esta modificação foi desenvolvida no formato OCMod, e adiciona os campos customizados do tipo "endereço" na lista de entrega, fatura e e-mail do pedido.
+Esta modificação foi desenvolvida 100% no formato OCMod, e adiciona os campos personalizados:
+
+**Na administração da loja, ao visulizar a lista de entrega, fatura e pedido.**
+
+**Na frente de loja, no e-mail de confirmação do pedido, e na edição de endereços na conta do cliente.**
 
 Caso deseje doar um valor para contribuir com este trabalho continuo e sempre gratuito, clique no botão abaixo:
 
@@ -15,7 +19,11 @@ Caso deseje doar um valor para contribuir com este trabalho continuo e sempre gr
 
 ### Desinstalar
 
-Para desinstalar a modificação, na administração da loja, acesse o menu Extensions->Modifications (Extensões->Modificações) e selecione a modificação com o nome 'Exibe os campos personalizados de endereço nos dados do pedido', depois clique no botão Delete (Excluir), e no botão Refresh (Atualizar).
+Para desinstalar a modificação, na administração da loja, acesse o menu Extensions->Modifications (Extensões->Modificações) e selecione a modificação com o nome 'Campos personalizados no pedido, e-mail e endereço do cliente', depois clique no botão Delete (Excluir), e no botão Refresh (Atualizar).
+
+### Atualizar
+
+Para atualizar a modificação, na administração da loja, efetue o procedimento para desinstalar a modificação, e após a desinstalação, execute o procedimento de instalação.
 
 ### Utilização
 
@@ -37,10 +45,6 @@ Depois clique no botão "Save" (Salvar).
 
 Em {custom_field_ID} substitua apenas o ID pelo id do campo customizado, sendo que você pode acrescentar quantos campos customizados forem necessários e com a formação que você desejar, observando que todos devem está no formato {custom_field_ID}
 
-**Observação:**
-
-Só captura campos customizados do tipo "Endereço".
-
 **Como identificar o ID do campo customizado:**
 
 Na administração, acesse o menu Customers->Custom Fields (Clientes->Personalizar cadastro), na coluna "Id" fica o id do campo customizado.
@@ -61,9 +65,9 @@ admin/controller/sale/order.php
 
 catalog/controller/account/address.php
 
-catalog/model/checkout/order.php
-
 catalog/controller/account/order.php
+
+catalog/model/checkout/order.php
 
 ### Como contribuir
 
