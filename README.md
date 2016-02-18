@@ -17,15 +17,7 @@ Caso deseje doar um valor para contribuir com este trabalho continuo e sempre gr
  3. Na página do instalador, clique no botão Upload e selecione o arquivo 'exibir-campos-personalizados.ocmod.zip' (que você baixou deste repositório), e aguarde a conclusão da instalação automática.
  5. Após a instalação, acesse o menu Extensions->Modifications (Extensões->Modificações) e clique no botão Refresh (Atualizar), para que a modificação instalada seja incrementada na loja, lembrando que não é o botão "Atualizar" do navegador, e sim o botão "Atualizar" na cor azul ao lado do botão laranja e vermelho na tela do próprio OpenCart.
 
-### Desinstalar
-
-Para desinstalar a modificação, na administração da loja, acesse o menu Extensions->Modifications (Extensões->Modificações) e selecione a modificação com o nome 'Campos personalizados no pedido, e-mail e endereço do cliente', depois clique no botão Delete (Excluir), e no botão Refresh (Atualizar).
-
-### Atualizar
-
-Para atualizar a modificação, na administração da loja, efetue o procedimento para desinstalar a modificação, e após a desinstalação, execute o procedimento de instalação.
-
-### Utilização
+### Configuração
 
 Após a instalação da modificação, acesse o menu System->Localisation->Countries (Configurações->Dados auxiliares->Países), localize o país "Brasil" (locate the country), e clique no botão "Edit" (Editar), nos dados do país no campo "Address Format" (Formatação do endereço) digite:
 
@@ -45,9 +37,17 @@ Depois clique no botão "Save" (Salvar).
 
 Em {custom_field_ID} substitua apenas o ID pelo id do campo customizado, sendo que você pode acrescentar quantos campos customizados forem necessários e com a formação que você desejar, observando que todos devem está no formato {custom_field_ID}
 
-**Como identificar o ID do campo customizado:**
+**Identificando o ID do campo customizado:**
 
 Na administração, acesse o menu Customers->Custom Fields (Clientes->Personalizar cadastro), na coluna "Id" fica o id do campo customizado.
+
+### Desinstalação
+
+Para desinstalar a modificação, na administração da loja, acesse o menu Extensions->Modifications (Extensões->Modificações) e selecione a modificação com o nome 'Campos personalizados no pedido, e-mail e endereço do cliente', depois clique no botão Delete (Excluir), e no botão Refresh (Atualizar).
+
+### Atualização
+
+Acesse a administração da loja e execute o procedimento de Desinstalação, depois execute o procedimento de Instalação.
 
 ### Dúvidas
 
