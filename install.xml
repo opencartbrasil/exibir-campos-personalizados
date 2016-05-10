@@ -54,6 +54,8 @@
 				$format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['custom_field'][$custom_field['custom_field_id']], $format);
 			  }
 			}
+			
+			$format = preg_replace('/^[\w\s]+:\s{.*}/m', '', $format);
       ]]></add>
     </operation>
     <operation>
@@ -71,6 +73,8 @@
 				$format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['custom_field'][$custom_field['custom_field_id']], $format);
 			  }
 			}
+			
+			$format = preg_replace('/^[\w\s]+:\s{.*}/m', '', $format);
       ]]></add>
     </operation>
     <operation>
@@ -88,6 +92,8 @@
 				$format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['custom_field'][$custom_field['custom_field_id']], $format);
 			  }
 			}
+			
+			$format = preg_replace('/^[\w\s]+:\s{.*}/m', '', $format);
       ]]></add>
     </operation>
     <operation>
@@ -105,6 +111,8 @@
 				$format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['custom_field'][$custom_field['custom_field_id']], $format);
 			  }
 			}
+			
+			$format = preg_replace('/^[\w\s]+:\s{.*}/m', '', $format);
       ]]></add>
     </operation>
   </file>
@@ -125,6 +133,8 @@
 		foreach ($custom_account_fields as $custom_account_field) {
           $format = str_replace('{custom_field_' . $custom_account_field['custom_field_id'] . '}', '', $format);
         }
+		
+		$format = preg_replace('/^[\w\s]+:\s{.*}/m', '', $format);
 	  ]]></add>
 	</operation>
   </file>
@@ -155,6 +165,8 @@
 			$format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['custom_field'][$custom_field['custom_field_id']], $format);
 		  }
         }
+		
+		$format = preg_replace('/^[\w\s]+:\s{.*}/m', '', $format);
       ]]></add>
     </operation>
     <operation>
@@ -168,6 +180,8 @@
 			$format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['custom_field'][$custom_field['custom_field_id']], $format);
 		  }
         }
+		
+		$format = preg_replace('/^[\w\s]+:\s{.*}/m', '', $format);
       ]]></add>
     </operation>
   </file>
@@ -190,6 +204,8 @@
 			$format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['custom_field'][$custom_field['custom_field_id']], $format);
 		  }
         }
+		
+		$format = preg_replace('/^[\w\s]+:\s{.*}/m', '', $format);
       ]]></add>
     </operation>
     <operation>
@@ -203,6 +219,8 @@
 			$format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['custom_field'][$custom_field['custom_field_id']], $format);
 		  }
         }
+		
+		$format = preg_replace('/^[\w\s]+:\s{.*}/m', '', $format);
       ]]></add>
     </operation>
   </file>
