@@ -54,9 +54,9 @@ Nas linhas abaixo, substitua o ID em **$address['custom_field'][ID]** pelo id do
 
 ###### Edite os arquivos abaixo:
 
-catalog/controller/checkout/payment_address.tpl
+catalog/view/theme/PASTA_DO_TEMA/template/checkout/payment_address.tpl
 
-catalog/controller/checkout/shipping_address.tpl
+catalog/view/theme/PASTA_DO_TEMA/template/checkout/shipping_address.tpl
 
 ###### Localize a linha abaixo:
 
