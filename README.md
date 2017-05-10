@@ -42,6 +42,46 @@ Em {custom_field_ID} substitua apenas o ID pelo id do campo customizado, sendo q
 
 Na administração, acesse o menu Customers->Custom Fields (Clientes->Personalizar cadastro), na coluna "Id" fica o id do campo customizado.
 
+**Exibindo os campos customizados do endereço no select do checkout:**
+
+**Atenção:**
+
+Testado apenas no checkout padrão do OpenCart, ou seja, provavelmente não funcionará em outros checkouts.
+
+**Importante:**
+
+Nas linhas abaixo, substitua o ID em **$address['custom_field'][ID]** pelo id do campo customizado, sendo que você pode acrescentar quantos campos customizados forem necessários.
+
+###### Edite os arquivos abaixo:
+
+catalog/controller/checkout/payment_address.tpl
+
+catalog/controller/checkout/shipping_address.tpl
+
+###### Localize a linha abaixo:
+
+```html
+<option value="<?php echo $address['address_id']; ?>" selected="selected"><?php echo $address['firstname']; ?> <?php echo $address['lastname']; ?>, <?php echo $address['address_1']; ?>, <?php echo $address['city']; ?>, <?php echo $address['zone']; ?>, <?php echo $address['country']; ?></option>
+```
+
+###### E substitua pela linha abaixo:
+
+```html
+<option value="<?php echo $address['address_id']; ?>" selected="selected"><?php echo $address['firstname']; ?> <?php echo $address['lastname']; ?>, <?php echo $address['address_1']; ?>, <?php echo $address['custom_field'][ID]; ?>, <?php echo $address['address_2'] ?>, <?php echo $address['city']; ?>, <?php echo $address['zone']; ?>, <?php echo $address['country']; ?></option>
+```
+
+###### Localize a linha abaixo:
+
+```html
+<option value="<?php echo $address['address_id']; ?>"><?php echo $address['firstname']; ?> <?php echo $address['lastname']; ?>, <?php echo $address['address_1']; ?>, <?php echo $address['city']; ?>, <?php echo $address['zone']; ?>, <?php echo $address['country']; ?></option>
+```
+
+- E substitua pela linha abaixo:
+
+```html
+<option value="<?php echo $address['address_id']; ?>"><?php echo $address['firstname']; ?> <?php echo $address['lastname']; ?>, <?php echo $address['address_1']; ?>, <?php echo $address['custom_field'][ID]; ?>, <?php echo $address['address_2'] ?>, <?php echo $address['city']; ?>, <?php echo $address['zone']; ?>, <?php echo $address['country']; ?></option>
+```
+
 ### Desinstalação
 
 Para desinstalar a modificação, na administração da loja, acesse o menu Extensions->Modifications (Extensões->Modificações),  localize e selecione a modificação com o nome 'Campos personalizados no pedido, e-mail e endereço do cliente', depois clique no botão Delete (Excluir), e no botão Refresh (Atualizar).
