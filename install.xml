@@ -2,7 +2,7 @@
 <modification>
   <name>Campos personalizados no pedido, e-mail e endereço do cliente</name>
   <code>exibir-campos-personalizados</code>
-  <version>2.4</version>
+  <version>2.5</version>
   <author>OpenCart Brasil</author>
   <link>http://www.opencartbrasil.com.br</link>
   <file path="admin/view/template/customer/custom_field_list.tpl">
@@ -212,8 +212,8 @@
       <search><![CDATA[$data['shipping_address'] = str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format))));]]></search>
       <add position="before"><![CDATA[
         foreach ($custom_fields as $custom_field) {
-          if (isset($order_info['payment_custom_field'][$custom_field['custom_field_id']])){
-            $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['payment_custom_field'][$custom_field['custom_field_id']], $format);
+          if (isset($order_info['shipping_custom_field'][$custom_field['custom_field_id']])){
+            $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['shipping_custom_field'][$custom_field['custom_field_id']], $format);
           }
           if (isset($order_info['custom_field'][$custom_field['custom_field_id']])){
             $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['custom_field'][$custom_field['custom_field_id']], $format);
