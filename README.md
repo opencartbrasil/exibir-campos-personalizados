@@ -16,13 +16,13 @@ Caso deseje doar um valor para contribuir com este trabalho continuo e sempre gr
 
  1. Acesse o link: https://github.com/opencartbrasil/exibir-campos-personalizados/releases.
  2. Localize a versão mais atual e compatível com sua versão do OpenCart, e faça o download do arquivo "exibir-campos-personalizados.ocmod.zip".
- 3. Na administração da loja acesse o menu Extensões->Instalador (Extensions->Installer).
+ 3. Na administração da loja acesse o menu Extensões→Instalador (Extensions→Installer).
  4. Na página do instalador, clique no botão Upload e selecione o arquivo 'exibir-campos-personalizados.ocmod.zip' (que você baixou deste repositório), e aguarde a conclusão da instalação automática.
- 5. Após a instalação, acesse o menu Extensões->Modificações (Extensions->Modifications) e clique no botão Atualizar (Refresh), para que a modificação instalada seja adicionada na loja, lembrando que não é o botão "Atualizar" do navegador, e sim o botão "Atualizar" na cor azul ao lado do botão laranja e vermelho na tela do próprio OpenCart.
+ 5. Após a instalação, acesse o menu Extensões→Modificações (Extensions→Modifications) e clique no botão Atualizar (Refresh), para que a modificação instalada seja adicionada na loja, lembrando que não é o botão "Atualizar" do navegador, e sim o botão "Atualizar" na cor azul ao lado do botão laranja e vermelho na tela do próprio OpenCart.
 
 ### Configuração
 
-Após a instalação da modificação, acesse o menu Configurações->Dados auxiliares->Países (System->Localisation->Countries), localize o país "Brasil" (locate the country), e clique no botão "Editar" (Edit), nos dados do país no campo "Formatação do endereço" (Address Format) digite:
+Após a instalação da modificação, acesse o menu Configurações→Dados auxiliares→Países (System→Localisation→Countries), localize o país "Brasil" (locate the country), e clique no botão "Editar" (Edit), nos dados do país no campo "Formatação do endereço" (Address Format) digite:
 
 ```php
 {firstname} {lastname}
@@ -42,7 +42,7 @@ Em {custom_field_ID} substitua apenas o ID pelo id do campo customizado, sendo q
 
 **Identificando o ID do campo customizado:**
 
-Na administração, acesse o menu Clientes->Personalizar cadastro (Customers->Custom Fields), na coluna "Id" fica o id do campo customizado.
+Na administração, acesse o menu Clientes→Personalizar cadastro (Customers→Custom Fields), na coluna "Id" fica o id do campo customizado.
 
 **Exibindo os campos customizados do endereço no select do checkout:**
 
@@ -86,7 +86,7 @@ catalog/view/theme/PASTA_DO_TEMA/template/checkout/shipping_address.tpl
 
 ### Desinstalação
 
-Para desinstalar a modificação, na administração da loja, acesse o menu Extensões->Modificações (Extensions->Modifications),  localize e selecione a modificação com o nome 'Campos personalizados no pedido, e-mail e endereço do cliente', depois clique no botão Excluir (Delete), e no botão Atualizar (Refresh).
+Para desinstalar a modificação, na administração da loja, acesse o menu Extensões→Modificações (Extensions→Modifications),  localize e selecione a modificação com o nome 'Campos personalizados no pedido, e-mail e endereço do cliente', depois clique no botão Excluir (Delete), e no botão Atualizar (Refresh).
 
 ### Atualização
 
