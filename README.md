@@ -1,6 +1,8 @@
-### Resumo
+[![license][licenca-badge]][LICENSE]
 
-Esta modificação foi desenvolvida 100% no formato OCMod, e adiciona os campos personalizados:
+### Apresentação
+
+Esta modificação foi desenvolvida 100% no formato OCMOD, e adiciona os campos personalizados:
 
 **Na administração da loja, ao visulizar a lista de entrega, fatura e pedido.**
 
@@ -14,13 +16,13 @@ Caso deseje doar um valor para contribuir com este trabalho continuo e sempre gr
 
  1. Acesse o link: https://github.com/opencartbrasil/exibir-campos-personalizados/releases.
  2. Localize a versão mais atual e compatível com sua versão do OpenCart, e faça o download do arquivo "exibir-campos-personalizados.ocmod.zip".
- 3. Na administração da loja acesse o menu Extensions->Extension Installer (Extensões->Instalador).
+ 3. Na administração da loja acesse o menu Extensões->Instalador (Extensions->Installer).
  4. Na página do instalador, clique no botão Upload e selecione o arquivo 'exibir-campos-personalizados.ocmod.zip' (que você baixou deste repositório), e aguarde a conclusão da instalação automática.
- 5. Após a instalação, acesse o menu Extensions->Modifications (Extensões->Modificações) e clique no botão Refresh (Atualizar), para que a modificação instalada seja incrementada na loja, lembrando que não é o botão "Atualizar" do navegador, e sim o botão "Atualizar" na cor azul ao lado do botão laranja e vermelho na tela do próprio OpenCart.
+ 5. Após a instalação, acesse o menu Extensões->Modificações (Extensions->Modifications) e clique no botão Atualizar (Refresh), para que a modificação instalada seja adicionada na loja, lembrando que não é o botão "Atualizar" do navegador, e sim o botão "Atualizar" na cor azul ao lado do botão laranja e vermelho na tela do próprio OpenCart.
 
 ### Configuração
 
-Após a instalação da modificação, acesse o menu System->Localisation->Countries (Configurações->Dados auxiliares->Países), localize o país "Brasil" (locate the country), e clique no botão "Edit" (Editar), nos dados do país no campo "Address Format" (Formatação do endereço) digite:
+Após a instalação da modificação, acesse o menu Configurações->Dados auxiliares->Países (System->Localisation->Countries), localize o país "Brasil" (locate the country), e clique no botão "Editar" (Edit), nos dados do país no campo "Formatação do endereço" (Address Format) digite:
 
 ```php
 {firstname} {lastname}
@@ -32,7 +34,7 @@ Após a instalação da modificação, acesse o menu System->Localisation->Count
 {country}
 ```
 
-Depois clique no botão "Save" (Salvar).
+Depois clique no botão "Salvar" (Save).
 
 **Importante:**
 
@@ -40,7 +42,7 @@ Em {custom_field_ID} substitua apenas o ID pelo id do campo customizado, sendo q
 
 **Identificando o ID do campo customizado:**
 
-Na administração, acesse o menu Customers->Custom Fields (Clientes->Personalizar cadastro), na coluna "Id" fica o id do campo customizado.
+Na administração, acesse o menu Clientes->Personalizar cadastro (Customers->Custom Fields), na coluna "Id" fica o id do campo customizado.
 
 **Exibindo os campos customizados do endereço no select do checkout:**
 
@@ -84,7 +86,7 @@ catalog/view/theme/PASTA_DO_TEMA/template/checkout/shipping_address.tpl
 
 ### Desinstalação
 
-Para desinstalar a modificação, na administração da loja, acesse o menu Extensions->Modifications (Extensões->Modificações),  localize e selecione a modificação com o nome 'Campos personalizados no pedido, e-mail e endereço do cliente', depois clique no botão Delete (Excluir), e no botão Refresh (Atualizar).
+Para desinstalar a modificação, na administração da loja, acesse o menu Extensões->Modificações (Extensions->Modifications),  localize e selecione a modificação com o nome 'Campos personalizados no pedido, e-mail e endereço do cliente', depois clique no botão Excluir (Delete), e no botão Atualizar (Refresh).
 
 ### Atualização
 
@@ -92,11 +94,11 @@ Acesse a administração da loja e execute o procedimento de Desinstalação, de
 
 ### Dúvidas
 
-O OCMod (OpenCart Modification) é nativo do OpenCart, ou seja, não é necessário instalar nenhum complemento no OpenCart para utilizar modificações ou extensões no formato OCMod, para mais informações sobre o OCMod, segue o link:
+O OCMOD (OpenCart Modification) é nativo do OpenCart, ou seja, não é necessário instalar nenhum complemento no OpenCart para utilizar modificações ou extensões no formato OCMOD, para mais informações sobre o OCMOD, segue o link:
 
 https://github.com/opencart/opencart/wiki/Modification-System
 
-### Os arquivos alterados virtualmente através do OCMod são:
+### Os arquivos alterados virtualmente através do OCMOD são:
 
 admin/view/template/customer/custom_field_list.tpl
 
@@ -110,12 +112,5 @@ catalog/controller/account/order.php
 
 catalog/model/checkout/order.php
 
-### Como contribuir
-
- 1. Faça um Fork do projeto e edite os arquivos que desejar.
- 2. Faça um Pull para que suas sugestões de melhorias sejam avaliadas e aceitas, caso aprovadas.
- 3. Abra uma Inssue com sua dúvida ou sugestão.
-
-### Licença
-
-[GNU General Public License version 3 (GPLv3)](https://github.com/opencartbrasil/exibir-campos-personalizados/blob/master/LICENSE)
+[licenca-badge]: https://img.shields.io/badge/licença-GPLv3-blue.svg
+[LICENSE]: ./LICENSE
