@@ -78,7 +78,7 @@ catalog/view/theme/PASTA_DO_TEMA/template/checkout/shipping_address.tpl
 <option value="<?php echo $address['address_id']; ?>"><?php echo $address['firstname']; ?> <?php echo $address['lastname']; ?>, <?php echo $address['address_1']; ?>, <?php echo $address['city']; ?>, <?php echo $address['zone']; ?>, <?php echo $address['country']; ?></option>
 ```
 
-- E substitua pela linha abaixo:
+###### E substitua pela linha abaixo:
 
 ```html
 <option value="<?php echo $address['address_id']; ?>"><?php echo $address['firstname']; ?> <?php echo $address['lastname']; ?>, <?php echo $address['address_1']; ?>, <?php echo $address['custom_field'][ID]; ?>, <?php echo $address['address_2'] ?>, <?php echo $address['city']; ?>, <?php echo $address['zone']; ?>, <?php echo $address['country']; ?></option>
