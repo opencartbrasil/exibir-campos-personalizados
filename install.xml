@@ -2,7 +2,7 @@
 <modification>
   <name>Campos personalizados no pedido, e-mail e endereço do cliente</name>
   <code>exibir-campos-personalizados</code>
-  <version>2.6.0</version>
+  <version>2.6.1</version>
   <author>OpenCart Brasil</author>
   <link>http://www.opencartbrasil.com.br</link>
   <file path="admin/view/template/customer/custom_field_list.tpl">
@@ -149,10 +149,6 @@
     </operation>
   </file>
   <file path="catalog/controller/account/order.php">
-    <operation>
-      <search index="1"><![CDATA[$this->load->model('account/order');]]></search>
-      <add position="after"><![CDATA[$this->load->model('checkout/order');]]></add>
-    </operation>
     <operation>
       <search><![CDATA[if ($order_info['payment_address_format']) {]]></search>
       <add position="before"><![CDATA[
