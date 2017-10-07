@@ -2,7 +2,7 @@
 <modification>
   <name>Campos personalizados no pedido, e-mail e endereço do cliente</name>
   <code>exibir-campos-personalizados</code>
-  <version>2.6.1</version>
+  <version>2.7.0</version>
   <author>OpenCart Brasil</author>
   <link>http://www.opencartbrasil.com.br</link>
   <file path="admin/view/template/customer/custom_field_list.tpl">
@@ -33,18 +33,34 @@
     <operation>
       <search><![CDATA[$data['payment_address'] = str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format))));]]></search>
       <add position="before"><![CDATA[
-            $this->load->model('customer/custom_field');
-            $custom_fields = $this->model_customer_custom_field->getCustomFields();
-            foreach ($custom_fields as $custom_field) {
-                if (isset($order_info['payment_custom_field'][$custom_field['custom_field_id']])){
-                    $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['payment_custom_field'][$custom_field['custom_field_id']], $format);
-                }
-                if (isset($order_info['custom_field'][$custom_field['custom_field_id']])){
-                    $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['custom_field'][$custom_field['custom_field_id']], $format);
-                }
-            }
+      $this->load->model('customer/custom_field');
+      $custom_fields = $this->model_customer_custom_field->getCustomFields();
 
-            $format = preg_replace('/^[\w\s]+:\s{.*}/m', '', $format);
+      foreach ($custom_fields as $custom_field) {
+          if (isset($order_info['payment_custom_field'][$custom_field['custom_field_id']])) {
+              $payment_custom_field_value = $order_info['payment_custom_field'][$custom_field['custom_field_id']];
+          }
+
+          if (isset($order_info['custom_field'][$custom_field['custom_field_id']])) {
+              $payment_custom_field_value = $order_info['custom_field'][$custom_field['custom_field_id']];
+          }
+
+          if (isset($payment_custom_field_value)) {
+              if ($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' || $custom_field['type'] == 'checkbox') {
+                  $custom_field_options = $this->model_customer_custom_field->getCustomFieldValues($custom_field['custom_field_id']);
+
+                  foreach ($custom_field_options as $custom_field_option) {
+                      if ($custom_field_option['custom_field_value_id'] == $payment_custom_field_value) {
+                          $payment_custom_field_value = $custom_field_option['name'];
+                      }
+                  }
+              }
+
+              $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $payment_custom_field_value, $format);
+          }
+      }
+
+      $format = preg_replace('/(({custom_field(.*?)?}))/sim', '', $format);
       ]]></add>
     </operation>
     <operation>
@@ -54,16 +70,31 @@
     <operation>
       <search><![CDATA[$data['shipping_address'] = str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format))));]]></search>
       <add position="before"><![CDATA[
-            foreach ($custom_fields as $custom_field) {
-                if (isset($order_info['shipping_custom_field'][$custom_field['custom_field_id']])){
-                    $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['shipping_custom_field'][$custom_field['custom_field_id']], $format);
-                }
-                if (isset($order_info['custom_field'][$custom_field['custom_field_id']])){
-                    $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['custom_field'][$custom_field['custom_field_id']], $format);
-                }
-            }
+      foreach ($custom_fields as $custom_field) {
+          if (isset($order_info['shipping_custom_field'][$custom_field['custom_field_id']])) {
+              $shipping_custom_field_value = $order_info['shipping_custom_field'][$custom_field['custom_field_id']];
+          }
 
-            $format = preg_replace('/^[\w\s]+:\s{.*}/m', '', $format);
+          if (isset($order_info['custom_field'][$custom_field['custom_field_id']])) {
+              $shipping_custom_field_value = $order_info['custom_field'][$custom_field['custom_field_id']];
+          }
+
+          if (isset($shipping_custom_field_value)) {
+              if ($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' || $custom_field['type'] == 'checkbox') {
+                  $custom_field_options = $this->model_customer_custom_field->getCustomFieldValues($custom_field['custom_field_id']);
+
+                  foreach ($custom_field_options as $custom_field_option) {
+                      if ($custom_field_option['custom_field_value_id'] == $shipping_custom_field_value) {
+                          $shipping_custom_field_value = $custom_field_option['name'];
+                      }
+                  }
+              }
+
+              $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $shipping_custom_field_value, $format);
+          }
+      }
+
+      $format = preg_replace('/(({custom_field(.*?)?}))/sim', '', $format);
       ]]></add>
     </operation>
     <operation>
@@ -73,8 +104,8 @@
     <operation>
       <search><![CDATA[foreach ($orders as $order_id) {]]></search>
       <add position="before"><![CDATA[
-        $this->load->model('customer/custom_field');
-        $custom_fields = $this->model_customer_custom_field->getCustomFields();
+      $this->load->model('customer/custom_field');
+      $custom_fields = $this->model_customer_custom_field->getCustomFields();
       ]]></add>
     </operation>
     <operation>
@@ -84,16 +115,31 @@
     <operation>
       <search><![CDATA[$payment_address = str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format))));]]></search>
       <add position="before"><![CDATA[
-            foreach ($custom_fields as $custom_field) {
-                if (isset($order_info['payment_custom_field'][$custom_field['custom_field_id']])){
-                    $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['payment_custom_field'][$custom_field['custom_field_id']], $format);
-                }
-                if (isset($order_info['custom_field'][$custom_field['custom_field_id']])){
-                    $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['custom_field'][$custom_field['custom_field_id']], $format);
-                }
-            }
+      foreach ($custom_fields as $custom_field) {
+          if (isset($order_info['payment_custom_field'][$custom_field['custom_field_id']])) {
+              $payment_custom_field_value = $order_info['payment_custom_field'][$custom_field['custom_field_id']];
+          }
 
-            $format = preg_replace('/^[\w\s]+:\s{.*}/m', '', $format);
+          if (isset($order_info['custom_field'][$custom_field['custom_field_id']])) {
+              $payment_custom_field_value = $order_info['custom_field'][$custom_field['custom_field_id']];
+          }
+
+          if (isset($payment_custom_field_value)) {
+              if ($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' || $custom_field['type'] == 'checkbox') {
+                  $custom_field_options = $this->model_customer_custom_field->getCustomFieldValues($custom_field['custom_field_id']);
+
+                  foreach ($custom_field_options as $custom_field_option) {
+                      if ($custom_field_option['custom_field_value_id'] == $payment_custom_field_value) {
+                          $payment_custom_field_value = $custom_field_option['name'];
+                      }
+                  }
+              }
+
+              $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $payment_custom_field_value, $format);
+          }
+      }
+
+      $format = preg_replace('/(({custom_field(.*?)?}))/sim', '', $format);
       ]]></add>
     </operation>
     <operation>
@@ -103,16 +149,31 @@
     <operation>
       <search><![CDATA[$shipping_address = str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format))));]]></search>
       <add position="before"><![CDATA[
-            foreach ($custom_fields as $custom_field) {
-                if (isset($order_info['shipping_custom_field'][$custom_field['custom_field_id']])){
-                    $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['shipping_custom_field'][$custom_field['custom_field_id']], $format);
-                }
-                if (isset($order_info['custom_field'][$custom_field['custom_field_id']])){
-                    $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['custom_field'][$custom_field['custom_field_id']], $format);
-                }
-            }
+      foreach ($custom_fields as $custom_field) {
+          if (isset($order_info['shipping_custom_field'][$custom_field['custom_field_id']])) {
+              $shipping_custom_field_value = $order_info['shipping_custom_field'][$custom_field['custom_field_id']];
+          }
 
-            $format = preg_replace('/^[\w\s]+:\s{.*}/m', '', $format);
+          if (isset($order_info['custom_field'][$custom_field['custom_field_id']])) {
+              $shipping_custom_field_value = $order_info['custom_field'][$custom_field['custom_field_id']];
+          }
+
+          if (isset($shipping_custom_field_value)) {
+              if ($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' || $custom_field['type'] == 'checkbox') {
+                  $custom_field_options = $this->model_customer_custom_field->getCustomFieldValues($custom_field['custom_field_id']);
+
+                  foreach ($custom_field_options as $custom_field_option) {
+                      if ($custom_field_option['custom_field_value_id'] == $shipping_custom_field_value) {
+                          $shipping_custom_field_value = $custom_field_option['name'];
+                      }
+                  }
+              }
+
+              $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $shipping_custom_field_value, $format);
+          }
+      }
+
+      $format = preg_replace('/(({custom_field(.*?)?}))/sim', '', $format);
       ]]></add>
     </operation>
   </file>
@@ -120,9 +181,9 @@
     <operation>
       <search><![CDATA['payment_address_format'  => $order_query->row['payment_address_format'],]]></search>
       <add position="after"><![CDATA[
-                'custom_field' => json_decode($order_query->row['custom_field'], true),
-                'payment_custom_field' => json_decode($order_query->row['payment_custom_field'], true),
-                'shipping_custom_field' => json_decode($order_query->row['shipping_custom_field'], true),
+      'custom_field' => json_decode($order_query->row['custom_field'], true),
+      'payment_custom_field' => json_decode($order_query->row['payment_custom_field'], true),
+      'shipping_custom_field' => json_decode($order_query->row['shipping_custom_field'], true),
       ]]></add>
     </operation>
   </file>
@@ -130,21 +191,30 @@
     <operation>
       <search><![CDATA[foreach ($results as $result) {]]></search>
       <add position="before"><![CDATA[
-        $this->load->model('account/custom_field');
-        $custom_account_fields = $this->model_account_custom_field->getCustomFields();
+      $this->load->model('account/custom_field');
+      $account_custom_fields = $this->model_account_custom_field->getCustomFields();
       ]]></add>
     </operation>
     <operation>
       <search><![CDATA[$find = array(]]></search>
       <add position="before"><![CDATA[
-        foreach ($result['custom_field'] as $key => $custom_field) {
-            $format = str_replace('{custom_field_' . $key . '}', $custom_field, $format);
-        }
-        foreach ($custom_account_fields as $custom_account_field) {
-            $format = str_replace('{custom_field_' . $custom_account_field['custom_field_id'] . '}', '', $format);
-        }
+      foreach ($result['custom_field'] as $key => $custom_field) {
+          $account_custom_field_value = $custom_field;
 
-        $format = preg_replace('/^[\w\s]+:\s{.*}/m', '', $format);
+          if (isset($account_custom_fields[$key]['type'])) {
+              if ($account_custom_fields[$key]['type'] == 'select' || $account_custom_fields[$key]['type'] == 'radio' || $account_custom_fields[$key]['type'] == 'checkbox') {
+                  foreach ($account_custom_fields[$key]['custom_field_value'] as $custom_field_option) {
+                      if ($custom_field_option['custom_field_value_id'] == $account_custom_field_value) {
+                          $account_custom_field_value = $custom_field_option['name'];
+                      }
+                  }
+              }
+          }
+
+          $format = str_replace('{custom_field_' . $key . '}', $account_custom_field_value, $format);
+      }
+
+      $format = preg_replace('/(({custom_field(.*?)?}))/sim', '', $format);
       ]]></add>
     </operation>
   </file>
@@ -152,38 +222,64 @@
     <operation>
       <search><![CDATA[if ($order_info['payment_address_format']) {]]></search>
       <add position="before"><![CDATA[
-        $this->load->model('account/custom_field');
-        $custom_fields = $this->model_account_custom_field->getCustomFields();
+      $this->load->model('account/custom_field');
+      $custom_fields = $this->model_account_custom_field->getCustomFields();
       ]]></add>
     </operation>
     <operation>
       <search><![CDATA[$data['payment_address'] = str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format))));]]></search>
       <add position="before"><![CDATA[
-        foreach ($custom_fields as $custom_field) {
+      foreach ($custom_fields as $custom_field) {
           if (isset($order_info['payment_custom_field'][$custom_field['custom_field_id']])) {
-              $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['payment_custom_field'][$custom_field['custom_field_id']], $format);
+              $payment_custom_field_value = $order_info['payment_custom_field'][$custom_field['custom_field_id']];
           }
-          if (isset($order_info['custom_field'][$custom_field['custom_field_id']])){
-              $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['custom_field'][$custom_field['custom_field_id']], $format);
-          }
-        }
 
-        $format = preg_replace('/^[\w\s]+:\s{.*}/m', '', $format);
+          if (isset($order_info['custom_field'][$custom_field['custom_field_id']])) {
+              $payment_custom_field_value = $order_info['custom_field'][$custom_field['custom_field_id']];
+          }
+
+          if (isset($payment_custom_field_value)) {
+              if ($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' || $custom_field['type'] == 'checkbox') {
+                  foreach ($custom_field['custom_field_value'] as $custom_field_option) {
+                      if ($custom_field_option['custom_field_value_id'] == $payment_custom_field_value) {
+                          $payment_custom_field_value = $custom_field_option['name'];
+                      }
+                  }
+              }
+
+              $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $payment_custom_field_value, $format);
+          }
+      }
+
+      $format = preg_replace('/(({custom_field(.*?)?}))/sim', '', $format);
       ]]></add>
     </operation>
     <operation>
       <search><![CDATA[$data['shipping_address'] = str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format))));]]></search>
       <add position="before"><![CDATA[
-        foreach ($custom_fields as $custom_field) {
-          if (isset($order_info['shipping_custom_field'][$custom_field['custom_field_id']])){
-              $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['shipping_custom_field'][$custom_field['custom_field_id']], $format);
+      foreach ($custom_fields as $custom_field) {
+          if (isset($order_info['shipping_custom_field'][$custom_field['custom_field_id']])) {
+              $shipping_custom_field_value = $order_info['shipping_custom_field'][$custom_field['custom_field_id']];
           }
-          if (isset($order_info['custom_field'][$custom_field['custom_field_id']])){
-              $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['custom_field'][$custom_field['custom_field_id']], $format);
-          }
-        }
 
-        $format = preg_replace('/^[\w\s]+:\s{.*}/m', '', $format);
+          if (isset($order_info['custom_field'][$custom_field['custom_field_id']])) {
+              $shipping_custom_field_value = $order_info['custom_field'][$custom_field['custom_field_id']];
+          }
+
+          if (isset($shipping_custom_field_value)) {
+              if ($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' || $custom_field['type'] == 'checkbox') {
+                  foreach ($custom_field['custom_field_value'] as $custom_field_option) {
+                      if ($custom_field_option['custom_field_value_id'] == $shipping_custom_field_value) {
+                          $shipping_custom_field_value = $custom_field_option['name'];
+                      }
+                  }
+              }
+
+              $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $shipping_custom_field_value, $format);
+          }
+      }
+
+      $format = preg_replace('/(({custom_field(.*?)?}))/sim', '', $format);
       ]]></add>
     </operation>
   </file>
@@ -191,38 +287,64 @@
     <operation>
       <search><![CDATA[if ($order_info) {]]></search>
       <add position="after"><![CDATA[
-            $this->load->model('account/custom_field');
-            $custom_fields = $this->model_account_custom_field->getCustomFields();
+      $this->load->model('account/custom_field');
+      $custom_fields = $this->model_account_custom_field->getCustomFields();
       ]]></add>
     </operation>
     <operation>
       <search><![CDATA[$data['payment_address'] = str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format))));]]></search>
       <add position="before"><![CDATA[
-        foreach ($custom_fields as $custom_field) {
-          if (isset($order_info['payment_custom_field'][$custom_field['custom_field_id']])){
-              $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['payment_custom_field'][$custom_field['custom_field_id']], $format);
+      foreach ($custom_fields as $custom_field) {
+          if (isset($order_info['payment_custom_field'][$custom_field['custom_field_id']])) {
+              $payment_custom_field_value = $order_info['payment_custom_field'][$custom_field['custom_field_id']];
           }
-          if (isset($order_info['custom_field'][$custom_field['custom_field_id']])){
-              $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['custom_field'][$custom_field['custom_field_id']], $format);
-          }
-        }
 
-        $format = preg_replace('/^[\w\s]+:\s{.*}/m', '', $format);
+          if (isset($order_info['custom_field'][$custom_field['custom_field_id']])) {
+              $payment_custom_field_value = $order_info['custom_field'][$custom_field['custom_field_id']];
+          }
+
+          if (isset($payment_custom_field_value)) {
+              if ($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' || $custom_field['type'] == 'checkbox') {
+                  foreach ($custom_field['custom_field_value'] as $custom_field_option) {
+                      if ($custom_field_option['custom_field_value_id'] == $payment_custom_field_value) {
+                          $payment_custom_field_value = $custom_field_option['name'];
+                      }
+                  }
+              }
+
+              $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $payment_custom_field_value, $format);
+          }
+      }
+
+      $format = preg_replace('/(({custom_field(.*?)?}))/sim', '', $format);
       ]]></add>
     </operation>
     <operation>
       <search><![CDATA[$data['shipping_address'] = str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format))));]]></search>
       <add position="before"><![CDATA[
-        foreach ($custom_fields as $custom_field) {
-          if (isset($order_info['shipping_custom_field'][$custom_field['custom_field_id']])){
-              $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['shipping_custom_field'][$custom_field['custom_field_id']], $format);
+      foreach ($custom_fields as $custom_field) {
+          if (isset($order_info['shipping_custom_field'][$custom_field['custom_field_id']])) {
+              $shipping_custom_field_value = $order_info['shipping_custom_field'][$custom_field['custom_field_id']];
           }
-          if (isset($order_info['custom_field'][$custom_field['custom_field_id']])){
-              $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $order_info['custom_field'][$custom_field['custom_field_id']], $format);
-          }
-        }
 
-        $format = preg_replace('/^[\w\s]+:\s{.*}/m', '', $format);
+          if (isset($order_info['custom_field'][$custom_field['custom_field_id']])) {
+              $shipping_custom_field_value = $order_info['custom_field'][$custom_field['custom_field_id']];
+          }
+
+          if (isset($shipping_custom_field_value)) {
+              if ($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' || $custom_field['type'] == 'checkbox') {
+                  foreach ($custom_field['custom_field_value'] as $custom_field_option) {
+                      if ($custom_field_option['custom_field_value_id'] == $shipping_custom_field_value) {
+                          $shipping_custom_field_value = $custom_field_option['name'];
+                      }
+                  }
+              }
+
+              $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $shipping_custom_field_value, $format);
+          }
+      }
+
+      $format = preg_replace('/(({custom_field(.*?)?}))/sim', '', $format);
       ]]></add>
     </operation>
   </file>
