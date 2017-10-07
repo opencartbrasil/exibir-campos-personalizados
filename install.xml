@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <modification>
-  <name>Campos personalizados no pedido, e-mail e endereço do cliente</name>
+  <name>Exibir campos personalizados do cliente</name>
   <code>exibir-campos-personalizados</code>
   <version>2.7.0</version>
   <author>OpenCart Brasil</author>
