@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <modification>
-  <name>Exibir campos personalizados do cliente</name>
+  <name>Exibir campos personalizados para OpenCart 3.x</name>
   <code>exibir-campos-personalizados</code>
-  <version>2.7.0</version>
+  <version>3.0.0</version>
   <author>OpenCart Brasil</author>
   <link>http://www.opencartbrasil.com.br</link>
-  <file path="admin/view/template/customer/custom_field_list.tpl">
+  <file path="admin/view/template/customer/custom_field_list.twig">
     <operation>
       <search><![CDATA[<td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>]]></search>
       <add position="after"><![CDATA[<td style="width: 1px;" class="text-center">Id</td>]]></add>
     </operation>
     <operation>
-      <search><![CDATA[<td class="text-left"><?php echo $custom_field['name']; ?></td>]]></search>
-      <add position="before"><![CDATA[<td class="text-center"><?php echo $custom_field['custom_field_id']; ?></td>]]></add>
+      <search><![CDATA[<td class="text-left">{{ custom_field.name }}</td>]]></search>
+      <add position="before"><![CDATA[<td class="text-center">{{ custom_field.custom_field_id }}</td>]]></add>
     </operation>
     <operation>
-      <search><![CDATA[<td class="text-center" colspan="6"><?php echo $text_no_results; ?></td>]]></search>
-      <add position="replace"><![CDATA[<td class="text-center" colspan="7"><?php echo $text_no_results; ?></td>]]></add>
+      <search><![CDATA[<td class="text-center" colspan="6">{{ text_no_results }}</td>]]></search>
+      <add position="replace"><![CDATA[<td class="text-center" colspan="7">{{ text_no_results }}</td>]]></add>
     </operation>
   </file>
   <file path="admin/model/localisation/country.php">
@@ -283,17 +283,13 @@
       ]]></add>
     </operation>
   </file>
-  <file path="catalog/model/checkout/order.php">
-    <operation>
-      <search><![CDATA[if ($order_info) {]]></search>
-      <add position="after"><![CDATA[
-      $this->load->model('account/custom_field');
-      $custom_fields = $this->model_account_custom_field->getCustomFields();
-      ]]></add>
-    </operation>
+  <file path="catalog/controller/mail/order.php">
     <operation>
       <search><![CDATA[$data['payment_address'] = str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format))));]]></search>
       <add position="before"><![CDATA[
+      $this->load->model('account/custom_field');
+      $custom_fields = $this->model_account_custom_field->getCustomFields();
+
       foreach ($custom_fields as $custom_field) {
           if (isset($order_info['payment_custom_field'][$custom_field['custom_field_id']])) {
               $payment_custom_field_value = $order_info['payment_custom_field'][$custom_field['custom_field_id']];

@@ -44,45 +44,15 @@ Em {custom_field_ID} substitua apenas o ID pelo id do campo customizado, sendo q
 
 Na administração, acesse o menu Clientes→Personalizar cadastro (Customers→Custom Fields), na coluna "Id" fica o id do campo customizado.
 
-**Exibindo os campos customizados do endereço no select do checkout:**
+**Exibindo os campos customizados do endereço no select do checkout no OpenCart 2:**
 
-**Atenção:**
+No OpenCart versão 2:
 
-Testado apenas no checkout padrão do OpenCart, ou seja, provavelmente não funcionará em outros checkouts.
+[Manual](./manuais/OPENCART_2.md)
 
-**Importante:**
+No OpenCart versão 3:
 
-Nas linhas abaixo, substitua o ID em **$address['custom_field'][ID]** pelo id do campo customizado, sendo que você pode acrescentar quantos campos customizados forem necessários.
-
-###### Edite os arquivos abaixo:
-
-catalog/view/theme/PASTA_DO_TEMA/template/checkout/payment_address.tpl
-
-catalog/view/theme/PASTA_DO_TEMA/template/checkout/shipping_address.tpl
-
-###### Localize a linha abaixo:
-
-```html
-<option value="<?php echo $address['address_id']; ?>" selected="selected"><?php echo $address['firstname']; ?> <?php echo $address['lastname']; ?>, <?php echo $address['address_1']; ?>, <?php echo $address['city']; ?>, <?php echo $address['zone']; ?>, <?php echo $address['country']; ?></option>
-```
-
-###### E substitua pela linha abaixo:
-
-```html
-<option value="<?php echo $address['address_id']; ?>" selected="selected"><?php echo $address['firstname']; ?> <?php echo $address['lastname']; ?>, <?php echo $address['address_1']; ?>, <?php echo $address['custom_field'][ID]; ?>, <?php echo $address['address_2'] ?>, <?php echo $address['city']; ?>, <?php echo $address['zone']; ?>, <?php echo $address['country']; ?></option>
-```
-
-###### Localize a linha abaixo:
-
-```html
-<option value="<?php echo $address['address_id']; ?>"><?php echo $address['firstname']; ?> <?php echo $address['lastname']; ?>, <?php echo $address['address_1']; ?>, <?php echo $address['city']; ?>, <?php echo $address['zone']; ?>, <?php echo $address['country']; ?></option>
-```
-
-###### E substitua pela linha abaixo:
-
-```html
-<option value="<?php echo $address['address_id']; ?>"><?php echo $address['firstname']; ?> <?php echo $address['lastname']; ?>, <?php echo $address['address_1']; ?>, <?php echo $address['custom_field'][ID]; ?>, <?php echo $address['address_2'] ?>, <?php echo $address['city']; ?>, <?php echo $address['zone']; ?>, <?php echo $address['country']; ?></option>
-```
+[Manual](./manuais/OPENCART_3.md)
 
 ### Desinstalação
 
