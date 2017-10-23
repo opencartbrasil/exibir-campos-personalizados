@@ -8,13 +8,14 @@ Testado apenas no checkout padrão do OpenCart, ou seja, provavelmente não func
 
 **Importante:**
 
-Nas linhas abaixo, você deve substituir o **ID** em **<?php echo $address['custom_field'][ID]; ?>** pelo id do campo personalizado, sendo que você pode acrescentar quantos campos personalizados você desejar.
+Nas linhas abaixo, você deve substituir o **ID** em ```<?php echo $address['custom_field'][ID]; ?>``` pelo id do campo personalizado, sendo que você pode acrescentar quantos campos personalizados você desejar.
 
 **Exemplo de substituição do ID:**
 
 Digamos que o ID do campo personalizado 'Número' seja: **5**
 
-O código para exibição do campo 'Número' seria: **<?php echo $address['custom_field']['5']; ?>**
+O código para exibição do campo 'Número' seria:
+```<?php echo $address['custom_field'][5]; ?>```
 
 ###### Edite os arquivos abaixo:
 
