@@ -1,6 +1,6 @@
 [![license][licenca-badge]][LICENSE]
 
-### Exibindo os campos personalizados do tipo 'endereço do cliente' no select do checkout no OpenCart 3:
+### Exibindo os campos personalizados do tipo 'endereço do cliente' no select com 'dados de endereço' no checkout (finalização do pedido) do OpenCart 3:
 
 **Atenção:**
 
