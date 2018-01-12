@@ -8,14 +8,10 @@ Esta modificação foi desenvolvida 100% no formato OCMOD, e adiciona os campos 
 
 **Na frente de loja, no e-mail de confirmação do pedido, e na edição de endereços na conta do cliente.**
 
-Caso deseje doar um valor para contribuir com este trabalho continuo e sempre gratuito, clique no botão abaixo:
-
-[![alt tag](https://www.paypalobjects.com/pt_BR/BR/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7G9TR9PXS6G5J)
-
 ### Instalação
 
- 1. Acesse o link: https://github.com/opencartbrasil/exibir-campos-personalizados/releases.
- 2. Localize a versão mais atual e compatível com sua versão do OpenCart, e faça o download do arquivo "exibir-campos-personalizados.ocmod.zip".
+ 1. Acesse o link: https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=23447.
+ 2. Localize a versão mais atual e compatível com sua versão do OpenCart e faça o download.
  3. Na administração da loja acesse o menu Extensões→Instalador (Extensions→Installer).
  4. Na página do instalador, clique no botão Upload e selecione o arquivo 'exibir-campos-personalizados.ocmod.zip' (que você baixou deste repositório), e aguarde a conclusão da instalação automática.
  5. Após a instalação, acesse o menu Extensões→Modificações (Extensions→Modifications) e clique no botão Atualizar (Refresh), para que a modificação instalada seja adicionada na loja, lembrando que não é o botão "Atualizar" do navegador, e sim o botão "Atualizar" na cor azul ao lado do botão laranja e vermelho na tela do próprio OpenCart.
