@@ -11,10 +11,10 @@ Esta modificação foi desenvolvida 100% no formato OCMOD, e adiciona os campos 
 ### Instalação
 
  1. Acesse o link: https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=23447.
- 2. Localize a versão mais atual e compatível com sua versão do OpenCart e faça o download.
- 3. Na administração da loja acesse o menu Extensões→Instalador (Extensions→Installer).
- 4. Na página do instalador, clique no botão Upload e selecione o arquivo 'exibir-campos-personalizados.ocmod.zip' (que você baixou deste repositório), e aguarde a conclusão da instalação automática.
- 5. Após a instalação, acesse o menu Extensões→Modificações (Extensions→Modifications) e clique no botão Atualizar (Refresh), para que a modificação instalada seja adicionada na loja, lembrando que não é o botão "Atualizar" do navegador, e sim o botão "Atualizar" na cor azul ao lado do botão laranja e vermelho na tela do próprio OpenCart.
+ 2. Localize a extensão compatível com sua versão do OpenCart, e faça o download do arquivo "exibir-campos-personalizados.ocmod.zip".
+ 3. Na administração da loja acesse o menu **Extensões→Instalador** (Extensions→Installer), clique no botão **Upload** e selecione o arquivo 'ocmod-editor.ocmod.zip', e aguarde a conclusão da instalação automática.
+ 4. Após a instalação, acesse o menu **Extensões→Modificações** (Extensions→Modifications) e clique 2x no botão **Atualizar** (Refresh), para que a modificação instalada seja adicionada na loja, lembrando que não é o botão "**Atualizar**" do navegador, e sim o botão "**Atualizar**" na cor azul ao lado do botão laranja e vermelho na tela do próprio OpenCart.
+ 5. No OpenCart 3, vá na página principal do painel de controle da administração da loja, abaixo do botão "**Sair**", você verá um botão na cor azul com o desenho de uma engrenagem branca dentro dele, clique neste botão, e no popup que vai abrir, clique nos dois botões na cor laranja que estão dentro da coluna "**Ação**" para atualizar o cache do tema.
 
 ### Configuração
 
