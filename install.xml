@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <modification>
-  <name>Exibir campos personalizados para OpenCart 3.x</name>
+  <name>Exibir campos personalizados para OpenCart 3.0.x</name>
   <code>exibir-campos-personalizados</code>
-  <version>3.0.0</version>
+  <version>3.0.2</version>
   <author>OpenCart Brasil</author>
   <link>http://www.opencartbrasil.com.br</link>
   <file path="admin/view/template/customer/custom_field_list.twig">
-    <operation>
+    <operation error="skip">
       <search><![CDATA[<td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>]]></search>
+      <add position="after"><![CDATA[<td style="width: 1px;" class="text-center">Id</td>]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[<td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').trigger('click');"/></td>]]></search>
       <add position="after"><![CDATA[<td style="width: 1px;" class="text-center">Id</td>]]></add>
     </operation>
     <operation>
@@ -20,9 +24,13 @@
     </operation>
   </file>
   <file path="admin/model/localisation/country.php">
-    <operation>
+    <operation error="skip">
       <search><![CDATA[$this->db->query("UPDATE " . DB_PREFIX . "country SET name = '" . $this->db->escape($data['name']) . "', iso_code_2 = '" . $this->db->escape($data['iso_code_2']) . "', iso_code_3 = '" . $this->db->escape($data['iso_code_3']) . "', address_format = '" . $this->db->escape($data['address_format']) . "', postcode_required = '" . (int)$data['postcode_required'] . "', status = '" . (int)$data['status'] . "' WHERE country_id = '" . (int)$country_id . "'");]]></search>
-      <add position="after"><![CDATA[$this->db->query("UPDATE " . DB_PREFIX . "order SET shipping_address_format = '" . $this->db->escape($data['address_format']) . "', payment_address_format = '" . $this->db->escape($data['address_format']) . "'");]]></add>
+      <add position="after"><![CDATA[$this->db->query("UPDATE `" . DB_PREFIX . "order` SET shipping_address_format = '" . $this->db->escape($data['address_format']) . "', payment_address_format = '" . $this->db->escape($data['address_format']) . "'");]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[$this->db->query("UPDATE " . DB_PREFIX . "country SET name = '" . $this->db->escape((string)$data['name']) . "', iso_code_2 = '" . $this->db->escape((string)$data['iso_code_2']) . "', iso_code_3 = '" . $this->db->escape((string)$data['iso_code_3']) . "', address_format = '" . $this->db->escape((string)$data['address_format']) . "', postcode_required = '" . (int)$data['postcode_required'] . "', status = '" . (int)$data['status'] . "' WHERE country_id = '" . (int)$country_id . "'");]]></search>
+      <add position="after"><![CDATA[$this->db->query("UPDATE `" . DB_PREFIX . "order` SET shipping_address_format = '" . $this->db->escape($data['address_format']) . "', payment_address_format = '" . $this->db->escape($data['address_format']) . "'");]]></add>
     </operation>
   </file>
   <file path="admin/controller/sale/order.php">
