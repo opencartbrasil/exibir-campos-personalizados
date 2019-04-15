@@ -46,9 +46,9 @@ catalog/view/theme/PASTA_DO_TEMA/template/checkout/**shipping_address.twig**
 <option value="{{ address.address_id }}">{{ address.firstname }} {{ address.lastname }}, {{ address.address_1 }}, {{ address.custom_field.ID }}, {{ address.city }}, {{ address.zone }}, {{ address.country }}</option>
 ```
 
-###### Procedimentos para que a modificação seja atualizada na loja:
+###### Procedimento para que a alteração seja adicionada na loja:
 
-Na página inicial/principal da administração do OpenCart, logo abaixo do botão **Sair** no lado direito da tela, tem um botão azul com uma engrenagem branca dentro, clique neste botão que será aberto uma pequena tela, nesta tela **desative o cache do Tema e SASS**, clicando nos dois botões **Off**  na coluna **Cache**, depois clique nos dois botões **Atualizar** na coluna **Ação**, e acesse o menu **Extensões→Modificações** (Extensions→Modifications), e clique no botão **Atualizar** (Refresh).
+Acesse o menu **Extensões→Modificações** (Extensions→Modifications), clique no botão **Atualizar** (Refresh), depois vá na página principal do painel de controle da administração da loja, abaixo do botão **Sair**, você verá um botão na cor azul com o desenho de uma engrenagem branca dentro dele, clique neste botão e no popup que vai abrir, clique nos dois botões na cor laranja que estão dentro da coluna **Ação** para atualizar o cache do tema.
 
 [licenca-badge]: https://img.shields.io/badge/licença-GPLv3-blue.svg
 [LICENSE]: ./LICENSE
