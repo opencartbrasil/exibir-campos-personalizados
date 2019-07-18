@@ -2,7 +2,7 @@
 <modification>
   <name>Exibir campos personalizados para OpenCart 3.0.x</name>
   <code>exibir-campos-personalizados</code>
-  <version>3.0.2</version>
+  <version>3.1.0</version>
   <author>OpenCart Brasil</author>
   <link>http://www.opencartbrasil.com.br</link>
   <file path="admin/view/template/customer/custom_field_list.twig">
@@ -42,7 +42,7 @@
       <search><![CDATA[$data['payment_address'] = str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format))));]]></search>
       <add position="before"><![CDATA[
       $this->load->model('customer/custom_field');
-      $custom_fields = $this->model_customer_custom_field->getCustomFields();
+      $custom_fields = $this->model_customer_custom_field->getCustomFields(array('filter_customer_group_id' => $order_info['customer_group_id'], 'sort' => 'cf.sort_order'));
 
       foreach ($custom_fields as $custom_field) {
           if (isset($order_info['payment_custom_field'][$custom_field['custom_field_id']])) {
@@ -107,13 +107,16 @@
     </operation>
     <operation>
       <search><![CDATA[$custom_fields = $this->model_customer_custom_field->getCustomFields($filter_data);]]></search>
-      <add position="replace"><![CDATA[$custom_fields = $this->model_customer_custom_field->getCustomFields(array('sort' => 'cf.sort_order'));]]></add>
+      <add position="replace"><![CDATA[$custom_fields = $this->model_customer_custom_field->getCustomFields(array('filter_customer_group_id' => $order_info['customer_group_id'], 'sort' => 'cf.sort_order'));]]></add>
     </operation>
     <operation>
       <search><![CDATA[foreach ($orders as $order_id) {]]></search>
-      <add position="before"><![CDATA[
-      $this->load->model('customer/custom_field');
-      $custom_fields = $this->model_customer_custom_field->getCustomFields();
+      <add position="before"><![CDATA[$this->load->model('customer/custom_field');]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA[$store_info = $this->model_setting_setting->getSetting('config', $order_info['store_id']);]]></search>
+      <add position="after"><![CDATA[
+      $custom_fields = $this->model_customer_custom_field->getCustomFields(array('filter_customer_group_id' => $order_info['customer_group_id'], 'sort' => 'cf.sort_order'));
       ]]></add>
     </operation>
     <operation>
@@ -189,6 +192,7 @@
     <operation>
       <search><![CDATA['payment_address_format'  => $order_query->row['payment_address_format'],]]></search>
       <add position="after"><![CDATA[
+      'customer_group_id' => $order_query->row['customer_group_id'],
       'custom_field' => json_decode($order_query->row['custom_field'], true),
       'payment_custom_field' => json_decode($order_query->row['payment_custom_field'], true),
       'shipping_custom_field' => json_decode($order_query->row['shipping_custom_field'], true),
@@ -200,7 +204,7 @@
       <search><![CDATA[foreach ($results as $result) {]]></search>
       <add position="before"><![CDATA[
       $this->load->model('account/custom_field');
-      $account_custom_fields = $this->model_account_custom_field->getCustomFields();
+      $account_custom_fields = $this->model_account_custom_field->getCustomFields($this->customer->getGroupId());
       ]]></add>
     </operation>
     <operation>
@@ -231,7 +235,7 @@
       <search><![CDATA[if ($order_info['payment_address_format']) {]]></search>
       <add position="before"><![CDATA[
       $this->load->model('account/custom_field');
-      $custom_fields = $this->model_account_custom_field->getCustomFields();
+      $custom_fields = $this->model_account_custom_field->getCustomFields($order_info['customer_group_id']);
       ]]></add>
     </operation>
     <operation>
@@ -291,12 +295,20 @@
       ]]></add>
     </operation>
   </file>
+  <file path="catalog/model/checkout/order.php">
+    <operation>
+      <search><![CDATA['customer_id'             => $order_query->row['customer_id'],]]></search>
+      <add position="after"><![CDATA[
+      'customer_group_id' => $order_query->row['customer_group_id'],
+      ]]></add>
+    </operation>
+  </file>
   <file path="catalog/controller/mail/order.php">
     <operation>
       <search><![CDATA[$data['payment_address'] = str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format))));]]></search>
       <add position="before"><![CDATA[
       $this->load->model('account/custom_field');
-      $custom_fields = $this->model_account_custom_field->getCustomFields();
+      $custom_fields = $this->model_account_custom_field->getCustomFields($order_info['customer_group_id']);
 
       foreach ($custom_fields as $custom_field) {
           if (isset($order_info['payment_custom_field'][$custom_field['custom_field_id']])) {
