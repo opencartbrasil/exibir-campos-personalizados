@@ -2,7 +2,7 @@
 <modification>
   <name>Exibir campos personalizados para OpenCart 3.0.x</name>
   <code>exibir-campos-personalizados</code>
-  <version>3.1.0</version>
+  <version>3.1.1</version>
   <author>OpenCart Brasil</author>
   <link>http://www.opencartbrasil.com.br</link>
   <file path="admin/view/template/customer/custom_field_list.twig">
@@ -44,27 +44,29 @@
       $this->load->model('customer/custom_field');
       $custom_fields = $this->model_customer_custom_field->getCustomFields(array('filter_customer_group_id' => $order_info['customer_group_id'], 'sort' => 'cf.sort_order'));
 
-      foreach ($custom_fields as $custom_field) {
-          if (isset($order_info['payment_custom_field'][$custom_field['custom_field_id']])) {
-              $payment_custom_field_value = $order_info['payment_custom_field'][$custom_field['custom_field_id']];
-          }
-
-          if (isset($order_info['custom_field'][$custom_field['custom_field_id']])) {
-              $payment_custom_field_value = $order_info['custom_field'][$custom_field['custom_field_id']];
-          }
-
-          if (isset($payment_custom_field_value)) {
-              if ($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' || $custom_field['type'] == 'checkbox') {
-                  $custom_field_options = $this->model_customer_custom_field->getCustomFieldValues($custom_field['custom_field_id']);
-
-                  foreach ($custom_field_options as $custom_field_option) {
-                      if ($custom_field_option['custom_field_value_id'] == $payment_custom_field_value) {
-                          $payment_custom_field_value = $custom_field_option['name'];
-                      }
-                  }
+      if (is_array($custom_fields)) {
+          foreach ($custom_fields as $custom_field) {
+              if (isset($order_info['payment_custom_field'][$custom_field['custom_field_id']])) {
+                  $payment_custom_field_value = $order_info['payment_custom_field'][$custom_field['custom_field_id']];
               }
 
-              $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $payment_custom_field_value, $format);
+              if (isset($order_info['custom_field'][$custom_field['custom_field_id']])) {
+                  $payment_custom_field_value = $order_info['custom_field'][$custom_field['custom_field_id']];
+              }
+
+              if (isset($payment_custom_field_value)) {
+                  if ($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' || $custom_field['type'] == 'checkbox') {
+                      $custom_field_options = $this->model_customer_custom_field->getCustomFieldValues($custom_field['custom_field_id']);
+
+                      foreach ($custom_field_options as $custom_field_option) {
+                          if ($custom_field_option['custom_field_value_id'] == $payment_custom_field_value) {
+                              $payment_custom_field_value = $custom_field_option['name'];
+                          }
+                      }
+                  }
+
+                  $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $payment_custom_field_value, $format);
+              }
           }
       }
 
@@ -78,27 +80,29 @@
     <operation>
       <search><![CDATA[$data['shipping_address'] = str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format))));]]></search>
       <add position="before"><![CDATA[
-      foreach ($custom_fields as $custom_field) {
-          if (isset($order_info['shipping_custom_field'][$custom_field['custom_field_id']])) {
-              $shipping_custom_field_value = $order_info['shipping_custom_field'][$custom_field['custom_field_id']];
-          }
-
-          if (isset($order_info['custom_field'][$custom_field['custom_field_id']])) {
-              $shipping_custom_field_value = $order_info['custom_field'][$custom_field['custom_field_id']];
-          }
-
-          if (isset($shipping_custom_field_value)) {
-              if ($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' || $custom_field['type'] == 'checkbox') {
-                  $custom_field_options = $this->model_customer_custom_field->getCustomFieldValues($custom_field['custom_field_id']);
-
-                  foreach ($custom_field_options as $custom_field_option) {
-                      if ($custom_field_option['custom_field_value_id'] == $shipping_custom_field_value) {
-                          $shipping_custom_field_value = $custom_field_option['name'];
-                      }
-                  }
+      if (is_array($custom_fields)) {
+          foreach ($custom_fields as $custom_field) {
+              if (isset($order_info['shipping_custom_field'][$custom_field['custom_field_id']])) {
+                  $shipping_custom_field_value = $order_info['shipping_custom_field'][$custom_field['custom_field_id']];
               }
 
-              $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $shipping_custom_field_value, $format);
+              if (isset($order_info['custom_field'][$custom_field['custom_field_id']])) {
+                  $shipping_custom_field_value = $order_info['custom_field'][$custom_field['custom_field_id']];
+              }
+
+              if (isset($shipping_custom_field_value)) {
+                  if ($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' || $custom_field['type'] == 'checkbox') {
+                      $custom_field_options = $this->model_customer_custom_field->getCustomFieldValues($custom_field['custom_field_id']);
+
+                      foreach ($custom_field_options as $custom_field_option) {
+                          if ($custom_field_option['custom_field_value_id'] == $shipping_custom_field_value) {
+                              $shipping_custom_field_value = $custom_field_option['name'];
+                          }
+                      }
+                  }
+
+                  $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $shipping_custom_field_value, $format);
+              }
           }
       }
 
@@ -126,27 +130,29 @@
     <operation>
       <search><![CDATA[$payment_address = str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format))));]]></search>
       <add position="before"><![CDATA[
-      foreach ($custom_fields as $custom_field) {
-          if (isset($order_info['payment_custom_field'][$custom_field['custom_field_id']])) {
-              $payment_custom_field_value = $order_info['payment_custom_field'][$custom_field['custom_field_id']];
-          }
-
-          if (isset($order_info['custom_field'][$custom_field['custom_field_id']])) {
-              $payment_custom_field_value = $order_info['custom_field'][$custom_field['custom_field_id']];
-          }
-
-          if (isset($payment_custom_field_value)) {
-              if ($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' || $custom_field['type'] == 'checkbox') {
-                  $custom_field_options = $this->model_customer_custom_field->getCustomFieldValues($custom_field['custom_field_id']);
-
-                  foreach ($custom_field_options as $custom_field_option) {
-                      if ($custom_field_option['custom_field_value_id'] == $payment_custom_field_value) {
-                          $payment_custom_field_value = $custom_field_option['name'];
-                      }
-                  }
+      if (is_array($custom_fields)) {
+          foreach ($custom_fields as $custom_field) {
+              if (isset($order_info['payment_custom_field'][$custom_field['custom_field_id']])) {
+                  $payment_custom_field_value = $order_info['payment_custom_field'][$custom_field['custom_field_id']];
               }
 
-              $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $payment_custom_field_value, $format);
+              if (isset($order_info['custom_field'][$custom_field['custom_field_id']])) {
+                  $payment_custom_field_value = $order_info['custom_field'][$custom_field['custom_field_id']];
+              }
+
+              if (isset($payment_custom_field_value)) {
+                  if ($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' || $custom_field['type'] == 'checkbox') {
+                      $custom_field_options = $this->model_customer_custom_field->getCustomFieldValues($custom_field['custom_field_id']);
+
+                      foreach ($custom_field_options as $custom_field_option) {
+                          if ($custom_field_option['custom_field_value_id'] == $payment_custom_field_value) {
+                              $payment_custom_field_value = $custom_field_option['name'];
+                          }
+                      }
+                  }
+
+                  $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $payment_custom_field_value, $format);
+              }
           }
       }
 
@@ -160,27 +166,29 @@
     <operation>
       <search><![CDATA[$shipping_address = str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format))));]]></search>
       <add position="before"><![CDATA[
-      foreach ($custom_fields as $custom_field) {
-          if (isset($order_info['shipping_custom_field'][$custom_field['custom_field_id']])) {
-              $shipping_custom_field_value = $order_info['shipping_custom_field'][$custom_field['custom_field_id']];
-          }
-
-          if (isset($order_info['custom_field'][$custom_field['custom_field_id']])) {
-              $shipping_custom_field_value = $order_info['custom_field'][$custom_field['custom_field_id']];
-          }
-
-          if (isset($shipping_custom_field_value)) {
-              if ($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' || $custom_field['type'] == 'checkbox') {
-                  $custom_field_options = $this->model_customer_custom_field->getCustomFieldValues($custom_field['custom_field_id']);
-
-                  foreach ($custom_field_options as $custom_field_option) {
-                      if ($custom_field_option['custom_field_value_id'] == $shipping_custom_field_value) {
-                          $shipping_custom_field_value = $custom_field_option['name'];
-                      }
-                  }
+      if (is_array($custom_fields)) {
+          foreach ($custom_fields as $custom_field) {
+              if (isset($order_info['shipping_custom_field'][$custom_field['custom_field_id']])) {
+                  $shipping_custom_field_value = $order_info['shipping_custom_field'][$custom_field['custom_field_id']];
               }
 
-              $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $shipping_custom_field_value, $format);
+              if (isset($order_info['custom_field'][$custom_field['custom_field_id']])) {
+                  $shipping_custom_field_value = $order_info['custom_field'][$custom_field['custom_field_id']];
+              }
+
+              if (isset($shipping_custom_field_value)) {
+                  if ($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' || $custom_field['type'] == 'checkbox') {
+                      $custom_field_options = $this->model_customer_custom_field->getCustomFieldValues($custom_field['custom_field_id']);
+
+                      foreach ($custom_field_options as $custom_field_option) {
+                          if ($custom_field_option['custom_field_value_id'] == $shipping_custom_field_value) {
+                              $shipping_custom_field_value = $custom_field_option['name'];
+                          }
+                      }
+                  }
+
+                  $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $shipping_custom_field_value, $format);
+              }
           }
       }
 
@@ -210,20 +218,22 @@
     <operation>
       <search><![CDATA[$find = array(]]></search>
       <add position="before"><![CDATA[
-      foreach ($result['custom_field'] as $key => $custom_field) {
-          $account_custom_field_value = $custom_field;
+      if (is_array($result['custom_field'])) {
+          foreach ($result['custom_field'] as $key => $custom_field) {
+              $account_custom_field_value = $custom_field;
 
-          if (isset($account_custom_fields[$key]['type'])) {
-              if ($account_custom_fields[$key]['type'] == 'select' || $account_custom_fields[$key]['type'] == 'radio' || $account_custom_fields[$key]['type'] == 'checkbox') {
-                  foreach ($account_custom_fields[$key]['custom_field_value'] as $custom_field_option) {
-                      if ($custom_field_option['custom_field_value_id'] == $account_custom_field_value) {
-                          $account_custom_field_value = $custom_field_option['name'];
+              if (isset($account_custom_fields[$key]['type'])) {
+                  if ($account_custom_fields[$key]['type'] == 'select' || $account_custom_fields[$key]['type'] == 'radio' || $account_custom_fields[$key]['type'] == 'checkbox') {
+                      foreach ($account_custom_fields[$key]['custom_field_value'] as $custom_field_option) {
+                          if ($custom_field_option['custom_field_value_id'] == $account_custom_field_value) {
+                              $account_custom_field_value = $custom_field_option['name'];
+                          }
                       }
                   }
               }
-          }
 
-          $format = str_replace('{custom_field_' . $key . '}', $account_custom_field_value, $format);
+              $format = str_replace('{custom_field_' . $key . '}', $account_custom_field_value, $format);
+          }
       }
 
       $format = preg_replace('/(({custom_field(.*?)?}))/sim', '', $format);
@@ -241,25 +251,27 @@
     <operation>
       <search><![CDATA[$data['payment_address'] = str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format))));]]></search>
       <add position="before"><![CDATA[
-      foreach ($custom_fields as $custom_field) {
-          if (isset($order_info['payment_custom_field'][$custom_field['custom_field_id']])) {
-              $payment_custom_field_value = $order_info['payment_custom_field'][$custom_field['custom_field_id']];
-          }
-
-          if (isset($order_info['custom_field'][$custom_field['custom_field_id']])) {
-              $payment_custom_field_value = $order_info['custom_field'][$custom_field['custom_field_id']];
-          }
-
-          if (isset($payment_custom_field_value)) {
-              if ($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' || $custom_field['type'] == 'checkbox') {
-                  foreach ($custom_field['custom_field_value'] as $custom_field_option) {
-                      if ($custom_field_option['custom_field_value_id'] == $payment_custom_field_value) {
-                          $payment_custom_field_value = $custom_field_option['name'];
-                      }
-                  }
+      if (is_array($custom_fields)) {
+          foreach ($custom_fields as $custom_field) {
+              if (isset($order_info['payment_custom_field'][$custom_field['custom_field_id']])) {
+                  $payment_custom_field_value = $order_info['payment_custom_field'][$custom_field['custom_field_id']];
               }
 
-              $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $payment_custom_field_value, $format);
+              if (isset($order_info['custom_field'][$custom_field['custom_field_id']])) {
+                  $payment_custom_field_value = $order_info['custom_field'][$custom_field['custom_field_id']];
+              }
+
+              if (isset($payment_custom_field_value)) {
+                  if ($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' || $custom_field['type'] == 'checkbox') {
+                      foreach ($custom_field['custom_field_value'] as $custom_field_option) {
+                          if ($custom_field_option['custom_field_value_id'] == $payment_custom_field_value) {
+                              $payment_custom_field_value = $custom_field_option['name'];
+                          }
+                      }
+                  }
+
+                  $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $payment_custom_field_value, $format);
+              }
           }
       }
 
@@ -269,25 +281,27 @@
     <operation>
       <search><![CDATA[$data['shipping_address'] = str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format))));]]></search>
       <add position="before"><![CDATA[
-      foreach ($custom_fields as $custom_field) {
-          if (isset($order_info['shipping_custom_field'][$custom_field['custom_field_id']])) {
-              $shipping_custom_field_value = $order_info['shipping_custom_field'][$custom_field['custom_field_id']];
-          }
-
-          if (isset($order_info['custom_field'][$custom_field['custom_field_id']])) {
-              $shipping_custom_field_value = $order_info['custom_field'][$custom_field['custom_field_id']];
-          }
-
-          if (isset($shipping_custom_field_value)) {
-              if ($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' || $custom_field['type'] == 'checkbox') {
-                  foreach ($custom_field['custom_field_value'] as $custom_field_option) {
-                      if ($custom_field_option['custom_field_value_id'] == $shipping_custom_field_value) {
-                          $shipping_custom_field_value = $custom_field_option['name'];
-                      }
-                  }
+      if (is_array($custom_fields)) {
+          foreach ($custom_fields as $custom_field) {
+              if (isset($order_info['shipping_custom_field'][$custom_field['custom_field_id']])) {
+                  $shipping_custom_field_value = $order_info['shipping_custom_field'][$custom_field['custom_field_id']];
               }
 
-              $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $shipping_custom_field_value, $format);
+              if (isset($order_info['custom_field'][$custom_field['custom_field_id']])) {
+                  $shipping_custom_field_value = $order_info['custom_field'][$custom_field['custom_field_id']];
+              }
+
+              if (isset($shipping_custom_field_value)) {
+                  if ($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' || $custom_field['type'] == 'checkbox') {
+                      foreach ($custom_field['custom_field_value'] as $custom_field_option) {
+                          if ($custom_field_option['custom_field_value_id'] == $shipping_custom_field_value) {
+                              $shipping_custom_field_value = $custom_field_option['name'];
+                          }
+                      }
+                  }
+
+                  $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $shipping_custom_field_value, $format);
+              }
           }
       }
 
@@ -310,25 +324,27 @@
       $this->load->model('account/custom_field');
       $custom_fields = $this->model_account_custom_field->getCustomFields($order_info['customer_group_id']);
 
-      foreach ($custom_fields as $custom_field) {
-          if (isset($order_info['payment_custom_field'][$custom_field['custom_field_id']])) {
-              $payment_custom_field_value = $order_info['payment_custom_field'][$custom_field['custom_field_id']];
-          }
-
-          if (isset($order_info['custom_field'][$custom_field['custom_field_id']])) {
-              $payment_custom_field_value = $order_info['custom_field'][$custom_field['custom_field_id']];
-          }
-
-          if (isset($payment_custom_field_value)) {
-              if ($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' || $custom_field['type'] == 'checkbox') {
-                  foreach ($custom_field['custom_field_value'] as $custom_field_option) {
-                      if ($custom_field_option['custom_field_value_id'] == $payment_custom_field_value) {
-                          $payment_custom_field_value = $custom_field_option['name'];
-                      }
-                  }
+      if (is_array($custom_fields)) {
+          foreach ($custom_fields as $custom_field) {
+              if (isset($order_info['payment_custom_field'][$custom_field['custom_field_id']])) {
+                  $payment_custom_field_value = $order_info['payment_custom_field'][$custom_field['custom_field_id']];
               }
 
-              $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $payment_custom_field_value, $format);
+              if (isset($order_info['custom_field'][$custom_field['custom_field_id']])) {
+                  $payment_custom_field_value = $order_info['custom_field'][$custom_field['custom_field_id']];
+              }
+
+              if (isset($payment_custom_field_value)) {
+                  if ($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' || $custom_field['type'] == 'checkbox') {
+                      foreach ($custom_field['custom_field_value'] as $custom_field_option) {
+                          if ($custom_field_option['custom_field_value_id'] == $payment_custom_field_value) {
+                              $payment_custom_field_value = $custom_field_option['name'];
+                          }
+                      }
+                  }
+
+                  $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $payment_custom_field_value, $format);
+              }
           }
       }
 
@@ -338,25 +354,27 @@
     <operation>
       <search><![CDATA[$data['shipping_address'] = str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format))));]]></search>
       <add position="before"><![CDATA[
-      foreach ($custom_fields as $custom_field) {
-          if (isset($order_info['shipping_custom_field'][$custom_field['custom_field_id']])) {
-              $shipping_custom_field_value = $order_info['shipping_custom_field'][$custom_field['custom_field_id']];
-          }
-
-          if (isset($order_info['custom_field'][$custom_field['custom_field_id']])) {
-              $shipping_custom_field_value = $order_info['custom_field'][$custom_field['custom_field_id']];
-          }
-
-          if (isset($shipping_custom_field_value)) {
-              if ($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' || $custom_field['type'] == 'checkbox') {
-                  foreach ($custom_field['custom_field_value'] as $custom_field_option) {
-                      if ($custom_field_option['custom_field_value_id'] == $shipping_custom_field_value) {
-                          $shipping_custom_field_value = $custom_field_option['name'];
-                      }
-                  }
+      if (is_array($custom_fields)) {
+          foreach ($custom_fields as $custom_field) {
+              if (isset($order_info['shipping_custom_field'][$custom_field['custom_field_id']])) {
+                  $shipping_custom_field_value = $order_info['shipping_custom_field'][$custom_field['custom_field_id']];
               }
 
-              $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $shipping_custom_field_value, $format);
+              if (isset($order_info['custom_field'][$custom_field['custom_field_id']])) {
+                  $shipping_custom_field_value = $order_info['custom_field'][$custom_field['custom_field_id']];
+              }
+
+              if (isset($shipping_custom_field_value)) {
+                  if ($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' || $custom_field['type'] == 'checkbox') {
+                      foreach ($custom_field['custom_field_value'] as $custom_field_option) {
+                          if ($custom_field_option['custom_field_value_id'] == $shipping_custom_field_value) {
+                              $shipping_custom_field_value = $custom_field_option['name'];
+                          }
+                      }
+                  }
+
+                  $format = str_replace('{custom_field_' . $custom_field['custom_field_id'] . '}', $shipping_custom_field_value, $format);
+              }
           }
       }
 
