@@ -2,7 +2,7 @@
 <modification>
   <name>Exibir campos personalizados para OpenCart 3.0.x</name>
   <code>exibir-campos-personalizados</code>
-  <version>3.1.1</version>
+  <version>3.1.2</version>
   <author>OpenCart Brasil</author>
   <link>http://www.opencartbrasil.com.br</link>
   <file path="admin/view/template/customer/custom_field_list.twig">
@@ -111,7 +111,7 @@
     </operation>
     <operation>
       <search><![CDATA[$custom_fields = $this->model_customer_custom_field->getCustomFields($filter_data);]]></search>
-      <add position="replace"><![CDATA[$custom_fields = $this->model_customer_custom_field->getCustomFields(array('filter_customer_group_id' => $order_info['customer_group_id'], 'sort' => 'cf.sort_order'));]]></add>
+      <add position="replace"><![CDATA[$custom_fields = $this->model_customer_custom_field->getCustomFields(array('filter_customer_group_id' => isset($order_info['customer_group_id']) ? $order_info['customer_group_id'] : '', 'sort' => 'cf.sort_order'));]]></add>
     </operation>
     <operation>
       <search><![CDATA[foreach ($orders as $order_id) {]]></search>
